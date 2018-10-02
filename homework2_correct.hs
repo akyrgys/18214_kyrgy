@@ -1,4 +1,4 @@
-quadraticSolver::Float->Float->Float->(Float, Float)
+quadraticSolver:: (Floating a, Ord a) => a -> a -> a -> (a, a)
 quadraticSolver a b c   |a==0 && b/=0 = (cdivb, cdivb)
 						|a==0 && b==0 = error "Not correct"
 						|d>=0 = (x1, x2)
