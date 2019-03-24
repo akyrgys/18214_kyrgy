@@ -30,15 +30,12 @@ data CurrGameState = Game
   , player1      :: Position           -- Left player racket height.
                                   -- Zero is the middle of the screen. 
   , player2      :: Position  -- Right  player racket height.
-  , player1Last  :: Position  -- player1 position delay time ago
-  , player2Last  :: Position  -- player2 position delay time ago
   , isPaused     :: Bool            -- is paused or unpaused flag
   , pl1Moves     :: (Float, Float) -- player1 velocitity
   , pl2Moves     :: (Float, Float) -- player2 velocity
   , player1Score :: Int              
   , player2Score :: Int
   , currTime     :: Float          -- time after starting a game
-  , lastRacketCollision :: Float   -- time of the last bounce of the ball from the racket
   } deriving Show 
 
   -- The starting state for the game.
@@ -48,15 +45,12 @@ initialState = Game
   , ballVel  = (-80, -120)
   , player1  = (racketLeftPos, 40)
   , player2  = (racketRightPos, -80)
-  , player1Last = (racketLeftPos, 40)
-  , player2Last = (racketRightPos, -80)
   , pl1Moves = (0, 0)
   , pl2Moves = (0, 0)
   , player1Score = 0
   , player2Score = 0
   , isPaused = False
   , currTime = 0
-  , lastRacketCollision = (-0.2)
   }
 
 

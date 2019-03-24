@@ -72,12 +72,7 @@ moveRackets seconds game = game { player1 = (p1x', p1y'), player2 = (p2x', p2y')
 -- | Detect a collision with one of the side walls. Upon collisions,
 -- update the velocity of the ball to bounce it off the wall.
 bounce :: CurrGameState -> CurrGameState
-bounce game 
-      | currTime game - lastRacketCollision game >= delay = game { ballVel = (vx', vy') 
-                                                                 , lastRacketCollision = currTime game
-                                                                 , player1Last = player1 game
-                                                                 , player2Last = player2 game }
-      | otherwise = game
+bounce game  = game { ballVel = (vx', vy') }
         where
         -- The old velocities.
           (vx, vy) = ballVel game
