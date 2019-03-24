@@ -4,4 +4,4 @@ w, a, s, d - move left paddle
 'n' - new game
 'q' - leave the game
 'r' - restart the current game
-'p' - pause the game
+'p' - pause/unpause the game
