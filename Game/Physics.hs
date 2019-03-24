@@ -74,10 +74,14 @@ moveRackets seconds game = game { player1 = (p1x', p1y'), player2 = (p2x', p2y')
 bounce :: CurrGameState -> CurrGameState
 bounce game  = game { ballVel = (vx', vy') }
         where
+          check:: Bool
+          check = racketCollision (ballLoc game) (player2 game) (player1 game) circleRadius
+          vy' = if wallCollision (ballLoc game) circleRadius || 
+          	((not check) && racketCollisionTopBot (ballLoc game) (player2 game) (player1 game) circleRadius) then -vy else vy
         -- The old velocities.
           (vx, vy) = ballVel game
        
-          vx' = if (racketCollision (ballLoc game) (player2 game) (player1 game) circleRadius)
+          vx' = if (check)
                then
                   -- Update the velocity.
                   -vx
@@ -86,8 +90,7 @@ bounce game  = game { ballVel = (vx', vy') }
                  -- Do nothing. Return the old velocity.
                  vx
   
-          vy' = if wallCollision (ballLoc game) circleRadius{- || 
-             racketCollisionTopBot (ballLoc game) (player2 game) (player1 game) circleRadiusthen-} then -vy else vy
+          
 
 
 
@@ -105,13 +108,17 @@ wallCollision (_, y) radius = topCollision || bottomCollision
 racketCollision :: Position -> Position -> Position -> Radius -> Bool 
 racketCollision (xBall, yBall) (xRight, yRight) (xLeft, yLeft) radius = (leftCollision || rightCollision)
   where
-    leftCollision  = (xBall - radius <= xLeft + racketWidth / 2) &&
-                     (xBall + radius >= xLeft - racketWidth / 2) &&
+    leftCollision  = (((xBall - radius <= xLeft + racketWidth / 2) &&
+                     (xBall - radius >= xLeft + racketWidth / 2 - racketWidth/ inK)) ||
+                     ((xBall + radius >= xLeft - racketWidth / 2) &&
+                     (xBall + radius <= xLeft - racketWidth / 2 + racketWidth/ inK))) &&
                      (yBall + radius >= yLeft - racketHeight / 2) &&
                      (yBall - radius <= yLeft + racketHeight / 2)
 
-    rightCollision = (xBall + radius >= xRight - racketWidth / 2) &&
-                     (xBall - radius <= xRight + racketWidth / 2) &&
+    rightCollision = (((xBall + radius >= xRight - racketWidth / 2) &&
+                     (xBall + radius <= xRight - racketWidth / 2 + racketWidth/ inK)) ||
+                     ((xBall - radius <= xRight + racketWidth / 2) &&
+                     (xBall - radius >= xRight + racketWidth / 2 - racketWidth/ inK))) &&
                      (yBall + radius >= yRight - racketHeight / 2) &&
                      (yBall - radius <= yRight + racketHeight / 2)
 
@@ -119,9 +126,15 @@ racketCollision (xBall, yBall) (xRight, yRight) (xLeft, yLeft) radius = (leftCol
 
 
 
-{-racketCollisionTopBot :: Position -> Position -> Position -> Radius -> Bool 
-racketCollision (xBall, yBall) (xRight, yRight) (xLeft, yLeft) radius = (botCollision || topCollision) 
+racketCollisionTopBot :: Position -> Position -> Position -> Radius -> Bool 
+racketCollisionTopBot (xBall, yBall) (xRight, yRight) (xLeft, yLeft) radius = (botCollision || topCollision) 
   where
-  	botCollision = (xBall - radius <= xLeft + fromIntegral racketWidth / 2) &&
-                   (xBall + radius >= xLeft - fromIntegral racketWidth / 2) &&
-                   (yBall + )-}
+    botCollision  = (xBall - radius <= xLeft + racketWidth / 2) &&
+                    (xBall + radius >= xLeft - racketWidth / 2) &&
+                    (yBall + radius >= yLeft - racketHeight / 2) &&
+                    (yBall - radius <= yLeft + racketHeight / 2)
+
+    topCollision = (xBall + radius >= xRight - racketWidth / 2) &&
+                   (xBall - radius <= xRight + racketWidth / 2) &&
+                   (yBall + radius >= yRight - racketHeight / 2) &&
+                   (yBall - radius <= yRight + racketHeight / 2)

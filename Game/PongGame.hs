@@ -11,16 +11,15 @@ racketWidth = 20
 racketHeight = 80
 racketLeftPos = -fromIntegral width / 2 + 30
 racketRightPos = fromIntegral width / 2 - 30
-circleRadius, ping, racketWidth, racketHeight, delay, racketVel :: Float
+circleRadius, racketWidth, racketHeight, racketVel, inK :: Float
 circleRadius = 10
 wallPos1 = 200
 wallPos2 = (-200)
 wallWidth = fromIntegral width - 30
 wallHeight = 10
-ping = 2
 fps  = 40
-delay = 0.1
-racketVel = 70
+inK = 6             --we need to solve top/bot bouncing
+racketVel = 90
 
 type Position = (Float, Float)
 -- Data for current game state. 
@@ -42,7 +41,7 @@ data CurrGameState = Game
 initialState :: CurrGameState
 initialState = Game
   { ballLoc  = (-10, 30)
-  , ballVel  = (-80, -120)
+  , ballVel  = (-98, -120)
   , player1  = (racketLeftPos, 40)
   , player2  = (racketRightPos, -80)
   , pl1Moves = (0, 0)
