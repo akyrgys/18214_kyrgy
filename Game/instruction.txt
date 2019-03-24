@@ -1,0 +1,7 @@
+How to play? 
+w, a, s, d - move left paddle
+← ↑ → ↓ - move right paddle
+'n' - new game
+'q' - leave the game
+'r' - restart the current game
+'p' - pause the game
