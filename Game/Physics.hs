@@ -69,7 +69,7 @@ moveRackets seconds game = game { player1 = (p1x', p1y'), player2 = (p2x', p2y')
 
 
 
--- | Detect a collision with one of the side walls. Upon collisions,
+-- Detect a collision with one of the side walls. Upon collisions,
 -- update the velocity of the ball to bounce it off the wall.
 bounce :: CurrGameState -> CurrGameState
 bounce game  = game { ballVel = (vx', vy') }
@@ -90,15 +90,10 @@ bounce game  = game { ballVel = (vx', vy') }
                  -- Do nothing. Return the old velocity.
                  vx
   
-          
-
-
 
 type Radius = Float
 
-
-
--- | Given position and radius of the ball, return whether a collision occurred.
+-- Given position and radius of the ball, return whether a collision occurred.
 wallCollision :: Position -> Radius -> Bool 
 wallCollision (_, y) radius = topCollision || bottomCollision
   where

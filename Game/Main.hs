@@ -34,14 +34,16 @@ main = playIO window background fps initialState renderIO handleKeysIO updateIO
 -- Update the game by moving the ball and bouncing off walls.
 update :: Float -> CurrGameState -> CurrGameState
 update seconds game
-  | xBall - circleRadius <= -fromIntegral width / 2  = game{player2Score = 1+ player2Score game, ballLoc = (0, 0)}
-  | xBall + circleRadius >= fromIntegral width / 2   = game{player1Score = 1+ player1Score game, ballLoc = (0, 0)}
+  | isPl1GotPoint = game{player2Score = 1+ player2Score game, ballLoc = (0, 0)}
+  | isPl2GotPoint = game{player1Score = 1+ player1Score game, ballLoc = (0, 0)}
   | isPaused game                                = game 
   | (pl1Moves game) /= (0, 0) || (pl2Moves game) /= (0, 0) = bounce . (moveRackets seconds) . (moveBall seconds) $ game
   | otherwise                                    = bounce . (moveBall seconds) $ game
-    where xBall = fst (ballLoc game)
-
-
-
+    where 
+      xBall = fst (ballLoc game)
+      isPl1GotPoint :: Bool
+      isPl1GotPoint = xBall - circleRadius <= -fromIntegral width / 2
+      isPl2GotPoint :: Bool
+      isPl2GotPoint = xBall + circleRadius >= fromIntegral width / 2
 
 

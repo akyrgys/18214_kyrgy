@@ -41,7 +41,7 @@ data CurrGameState = Game
 initialState :: CurrGameState
 initialState = Game
   { ballLoc  = (-10, 30)
-  , ballVel  = (-98, -120)
+  , ballVel  = (-98, -108)
   , player1  = (racketLeftPos, 40)
   , player2  = (racketRightPos, -80)
   , pl1Moves = (0, 0)
